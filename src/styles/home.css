@@ -1,0 +1,172 @@
+.home{
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.home-x-container{
+    display: flex;
+    height: 96vh;
+    justify-content: center;
+    width: 42vw;
+}
+.x-home{
+    margin-top: auto;
+    width: 60%;
+    height: 60%;
+}
+.form-container{
+    display: flex;
+    flex-wrap: wrap;
+    width: 55vw;
+    padding-left: 2rem;
+}
+.form-pre-login{
+    width: 100%;
+}
+.title-home{
+    margin-top: 5rem;
+    font-weight: 900;
+    font-size: 4rem;
+}
+.text-secondary-home{
+    margin-top: 2.5rem;
+    font-weight: 700;
+    font-size: 2rem;
+}
+.register-icon{
+    margin-right: 0.5rem;
+    width: 1.5rem;
+    height: 1.2rem;
+}
+.register-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    width: 300px;
+    font-weight: 400;
+}
+.apple-button{
+    margin-top: 1rem;
+}
+.button-account{
+    margin-right: 15rem;
+    width: 300px !important;
+}
+.button-grok{
+    width: 300px !important;
+}
+.google-button{
+    color: #363636;
+}
+.separator{
+    display: flex;
+    margin-top: 1rem;
+    width: 45%;
+}
+.divider{
+    height: 5px;
+    width: 40%;
+    border-top: 1px solid grey;
+    margin: auto 5px 5px;
+}
+.create-account-button-form{
+    font-weight: 700;
+}
+.terms-and-conditions{
+    width: 40%;
+    font-size: 11px;
+}
+.link-terms{
+    color: #08a1f5;
+}
+.login-link{
+    margin-top: 2rem;
+    margin-left: 2rem;
+}
+.login-container{
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 2rem;
+    width: 100%;
+}
+.login-container button{
+    margin-top: 2rem;
+    padding: 10px;
+    background: none;
+    color: white;
+    border: 1px solid #b7b7b7;
+    font-weight: 800;
+    width: 97%;
+    transition: background-color .4s ease;
+}
+.login-container button:hover{
+    background-color: #101010;
+}
+.column-2{
+    grid-column: 1/-1;
+    padding: 2%;
+    text-align: center;
+    color: grey;
+    font-size: 12px;
+    margin-top: 3rem;
+}
+.login-form-x{
+    padding: 2%;
+
+}
+.login-form-x #email{
+    margin-top: 0.8rem;
+}
+.login-form-x button{
+    margin-top: 1rem;
+}
+.change-form{
+    margin-top: 1rem;
+}
+@media (max-width: 700px){
+    .main{
+    }
+    .home{
+        grid-template-columns: 1fr ;
+
+    }
+    .home-x-container{
+        height: 40vh;
+        width: 100%;
+        margin: auto;
+    }
+    .home-x-container svg{
+        width: 100%;
+    }
+    .title-home{
+        width: 100vw;
+        text-align: center;
+    }
+    .text-secondary-home{
+        width: 100vw;
+        text-align: center;
+    }
+    .form-pre-login{
+        display: grid;
+        place-items: center;
+        width: 100vw;
+    }
+    .form-container{
+        padding-left: 0;
+    }
+    .login-container{
+        display: grid;
+        place-items: center;
+        padding-left: 0;
+    }
+    .button-account{
+        margin-right: 0;
+    }
+}
+@media (max-width: 500px){
+    .title-home{
+        font-size: 3rem;
+    }
+}
