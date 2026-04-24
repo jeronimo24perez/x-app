@@ -1,14 +1,12 @@
-import {type ChangeEvent, type MouseEvent, useEffect, useState} from "react";
+import {type ChangeEvent, type MouseEvent, useEffect, useRef, useState} from "react";
 import {FaRegEyeSlash, FaXTwitter} from "react-icons/fa6";
 import {CgClose} from "react-icons/cg";
-import {FcGoogle} from "react-icons/fc";
-import {GrApple} from "react-icons/gr";
 import {FaRegEye} from "react-icons/fa";
 import {useDispatch, useSelector} from "react-redux";
 import {loginStepOne} from "../state/authSlice.tsx";
 import type {AppDispatch, RootState} from "../state/store.tsx";
 import {useNavigate} from "react-router";
-
+import GoogleAuth from "../components/googleAuth.tsx";
 interface loginForm{
     email: string,
     password: string,
@@ -44,8 +42,12 @@ export const Login = ()=>{
         }))
         //   navigate('/feed')
     }
-
+    const isFirstRender = useRef(true);
     useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
         if(user.auth === true){
             navigate('/feed')
             localStorage.setItem("id", user.id?? "" )
@@ -64,15 +66,9 @@ export const Login = ()=>{
                         </div>
                         <button className="close" onClick={HandleOverlay}> <CgClose size={18} /> </button>
                         <h2>Inicia Sesion en X</h2>
-                        <button className="button-rounded register-button google-button bg-white">
-                            <FcGoogle className="google-icon register-icon" />
-                            Iniciar Sesion Con Google
-                        </button>
-                        <button className="button-rounded register-button apple-button   bg-white">
-                            <GrApple className=" register-icon" />
-                            Iniciar Sesion Con Apple
-                        </button>
-                        <div className="separator">
+                        <GoogleAuth />
+
+                        <div className="separator separator-login">
                             <div className="divider"></div> O <div className={"divider"}></div>
                         </div>
                         <div className="input-group">

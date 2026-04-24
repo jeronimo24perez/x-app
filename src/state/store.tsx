@@ -1,8 +1,9 @@
 import {configureStore} from "@reduxjs/toolkit";
 import AuthReducer from "./authSlice.tsx";
-
+import UserReducer from "./userSlice.ts";
+import PostReducer from "./postSlice.tsx";
 export const store = configureStore({
-    reducer: {auth: AuthReducer}
+    reducer: {auth: AuthReducer, profile: UserReducer, posts: PostReducer}
 });
 
 export type RootState = ReturnType<typeof store.getState>;

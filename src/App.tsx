@@ -2,6 +2,7 @@
 import './App.css'
 import Home from "./pages/home.tsx";
 import {BrowserRouter, Route, Routes} from "react-router";
+import Feed from "./pages/feed.tsx";
 
 function App() {
   return (
@@ -9,7 +10,7 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Home />} />
-                <Route path='/feed' element={<p>feed in progress</p>} />
+                <Route path='/feed' element={<Feed />} />
                 <Route path='*' element={<p>No encontrada</p>} />
             </Routes>
         </BrowserRouter>

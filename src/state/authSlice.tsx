@@ -1,31 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
+import type {CredentialResponse} from "@react-oauth/google";
+import Swal from "sweetalert2";
+import type User from '../models/user.ts'
 // ================== TYPES ==================
 
-interface User {
-    bio: string;
-    date: string;
-    email: string;
-    followers: number;
-    follows: number;
-    location: string;
+interface userPassword extends User{
     password: string;
-    username: string;
-    website: string;
+
 }
+
 
 // 🔥 respuesta correcta: error o success
 type RegisterResponse =
     | { detail: string }
     | {
     id?: string;
-    user: User };
+    user: userPassword};
 
 type LoginResponse =
     | { detail: string }
     | {
     id?: string;
-    user: User };
+    user: userPassword };
 
 interface InitialState {
     id?: string,
@@ -33,7 +29,8 @@ interface InitialState {
     auth: boolean;
     step: number;
     detail?: string | null;
-    user: User | null; // ✅ clave
+    user: userPassword | null;
+    isLoading: boolean;
 }
 
 interface BodyReq {
@@ -48,6 +45,7 @@ interface LoginReq {
     password: string;
 }
 
+
 // ================== INITIAL STATE ==================
 
 const initialState: InitialState = {
@@ -55,6 +53,7 @@ const initialState: InitialState = {
     step: 0,
     user: null, // ✅ ya no rompe
     detail: null,
+    isLoading: false
 };
 
 // ================== THUNKS ==================
@@ -101,22 +100,41 @@ export const loginStepOne = createAsyncThunk<LoginResponse, LoginReq>(
         return await post.json();
     }
 );
-
+export const googleOAuth = createAsyncThunk(
+    "auth/googleOAuth",
+    async (arg: CredentialResponse)=>{
+        const data = await fetch('https://x-backend-ruddy.vercel.app/auth/google', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token: arg.credential
+            })
+        })
+        return await data.json();
+    }
+)
 // ================== SLICE ==================
 
 const AuthSlice = createSlice({
     name: "auth",
     initialState,
-    reducers: {},
+    reducers: {
+        cacheReader: (state, action) => {
+            state.auth = action.payload.auth;
+            state.id = action.payload.id;
+        }
+    },
     extraReducers: (builder) => {
         builder
-
             // REGISTER
             .addCase(register.fulfilled, (state, action) => {
                 if ("detail" in action.payload) {
                     state.user = null;
                     state.detail = action.payload.detail;
                     state.registed = false;
+                    state.isLoading = false
                     return;
                 }
 
@@ -124,21 +142,51 @@ const AuthSlice = createSlice({
                 state.auth = true;
                 state.registed = true;
                 state.detail = null;
-            })
+                state.isLoading = false;
 
+            })
+            .addCase(register.pending, (state) => {
+                state.isLoading = true;
+            })
             // LOGIN
             .addCase(loginStepOne.fulfilled, (state, action) => {
                 if ("detail" in action.payload) {
                     state.detail = action.payload.detail;
                     state.auth = false;
+                    if(!state.auth){
+                        Swal.fire({
+                            title: 'Error al logearse',
+                            text: 'Email o contraseña incorrectos',
+                            icon: 'warning',
+                            confirmButtonText: 'Aceptar'
+                        })
+                    }
+                    state.isLoading = false
                     return;
                 }
                 state.id = action.payload.id;
                 state.auth = true;
                 state.detail = null;
+                state.isLoading = false
 
-            });
+            })
+            .addCase(loginStepOne.pending, (state)=>{
+                state.isLoading = true
+            })
+            .addCase(googleOAuth.fulfilled, (state, action)=>{
+                state.id = action.payload.id
+                state.auth = true;
+                state.detail = null
+                state.isLoading = false
+
+                localStorage.setItem('id', action.payload.id)
+            } )
+            .addCase(googleOAuth.pending, (state)=>{
+                state.isLoading = true
+            })
     },
+
 });
 
+export const {cacheReader} = AuthSlice.actions;
 export default AuthSlice.reducer;

@@ -143,9 +143,11 @@
     .title-home{
         width: 100vw;
         text-align: center;
+        font-size: 2rem;
+
     }
     .text-secondary-home{
-        width: 100vw;
+        width: 80vw;
         text-align: center;
     }
     .form-pre-login{
@@ -166,7 +168,15 @@
     }
 }
 @media (max-width: 500px){
-    .title-home{
-        font-size: 3rem;
+    .text-secondary-home    {
+        font-size: 1rem;
     }
+}
+
+.separator-login{
+    text-align: center;
+    width: 100%;
+}
+.separator-login .divider{
+    width: 50%;
 }

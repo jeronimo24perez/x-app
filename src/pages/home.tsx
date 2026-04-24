@@ -1,13 +1,29 @@
 import '../styles/home.css'
 import {FaXTwitter} from "react-icons/fa6";
-import {GrApple} from "react-icons/gr";
 import Register from "../features/register.tsx";
 import {Login} from "../features/login.tsx";
-import {GoogleLogin} from "@react-oauth/google";
+import GoogleAuth from "../components/googleAuth.tsx";
+import { useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import type {AppDispatch, RootState} from "../state/store.tsx";
+import {cacheReader} from "../state/authSlice.tsx";
 import {useNavigate} from "react-router";
 const Home = ()=>{
-
+    const state = useSelector((state: RootState) => state.auth);
+    const dispatch:AppDispatch = useDispatch();
     const navigate = useNavigate();
+    useEffect(()=>{
+        const id: string | null = localStorage.getItem("id");
+
+        if(id){
+            dispatch(cacheReader({
+                id: id,
+                auth: true
+            }))
+            navigate('/feed')
+        }
+
+    },[dispatch, navigate, state])
     return (
         <>
             <main className="home">
@@ -17,26 +33,9 @@ const Home = ()=>{
                 <div className="form-container">
                     <div className="form-pre-login">
                         <h2 className="title-home">Lo que está <br /> pasando ahora</h2>
-                        <h3 className="text-secondary-home">Únete Hoy</h3>
-                            <GoogleLogin width={300} shape={"circle"} onSuccess={(s)=>{
-                                fetch('https://x-backend-ruddy.vercel.app/auth/google', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({
-                                        token: s.credential
-                                    })
-                                }).then(r => r.json()).then(m => console.log(m))
+                        <h3 className="text-secondary-home mb-3">Únete Hoy</h3>
+                        <GoogleAuth />
 
-                                navigate('/feed')
-                                console.log(s)
-                            }}  onError={()=> console.log('err')} />
-
-                        <button className="button-rounded register-button apple-button">
-                            <GrApple className=" register-icon" />
-                            Registrarse Con Apple
-                        </button>
                         <div className="separator">
                             <div className="divider"></div> O <div className={"divider"}></div>
                         </div>

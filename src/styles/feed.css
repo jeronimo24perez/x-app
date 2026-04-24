@@ -1,0 +1,130 @@
+.main-feed{
+    display: grid;
+    grid-template-columns: 284px 1fr;
+    min-height: 100vh;
+    width: 100%;
+}
+.main-feed nav{
+    width: 250px;
+    padding-left: 2rem;
+    height: 100vh;
+    border-right: 2px solid grey;
+    position: fixed;
+}
+.logo-nav{
+    width: 100%;
+    margin-bottom: 1rem;
+}
+.x-navigation-logo{
+    width: 10%;
+    height: 7%;
+}
+.main-feed nav ul{
+    height: 100%;
+    padding-top: 2rem;
+    list-style-type: none;
+}
+.main-feed nav ul button{
+    margin-bottom: 2rem;
+}
+.main-feed nav ul li{
+    margin-bottom: 2rem;
+}
+.feed-container{
+    grid-column-start: 2;
+}
+.avatar-icon{
+    background: grey;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+.feed-post{
+    width: 100%;
+}
+
+.write-post{
+    font-family: "Segoe UI", "Roboto Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin-left: 1rem;
+    font-size: 1rem;
+    background: none;
+    border: none;
+    color: white;
+    width: 80%;
+    height: 7rem;
+    resize: none;
+    overflow: hidden;
+}
+.write-post:focus{
+    outline: none;
+}
+.grid-container{
+    padding: 1rem;
+    border-bottom: 1px solid grey;
+}
+.row{
+    display: grid;
+}
+.write-post-row{
+    grid-template-columns: 1fr 11fr;
+}
+.avatar{
+    justify-self: center;
+}
+.row-separator{
+    width: 100%;
+    border-bottom: 1px solid grey;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+.feed-post{
+    grid-template-columns: 1fr 1fr 1fr 200px;
+    place-items: center;
+}
+.post-icon{
+    color: #08a1f5;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    border-radius: 15px;
+    transition: box-shadow 0.2s;
+}
+.post-icon:hover{
+    box-shadow: 0 0 2px 7px #003049;
+}
+.post-button{
+    place-self: end;
+    width: 100% ;
+    font-weight: 900;
+}
+.button-disabled{
+    opacity: 0.5;
+}
+.separator-show-post{
+    width: 100%;
+    text-align: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid grey;
+    transition: background-color 0.2s;
+}
+.separator-show-post:hover{
+    background: #111111;
+}
+.post-container{
+    padding: 2%;
+    border-bottom: 2px solid grey;
+}
+.post-user{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 8fr;
+    gap: 5px;
+}
+.post-username{
+    justify-self: start;
+}
+.post-text{
+    display: grid;
+    grid-template-columns: 1fr 11fr;
+
+}
