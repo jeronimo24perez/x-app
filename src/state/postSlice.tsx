@@ -1,15 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-interface post{
-    [x: string]: string;
-    _id: string;
-    autor: string,
-    likes: number,
-    text: string,
-    img: string,
-    date: string
-}
+import type Post from '../models/post.ts'
 interface initialState {
-    feed: post[]
+    feed: Post[]
     isLoading: boolean
 }
 
@@ -17,6 +9,7 @@ const initialState: initialState = {
     feed: [{
         _id: "",
         autor: "",
+        email: "",
         likes: 0,
         text: "",
         img: "",
