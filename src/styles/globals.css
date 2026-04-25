@@ -18,6 +18,58 @@ body{
     justify-content: center;
     padding: 20px ;
 }
+a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+a, a:visited, a:hover, a:active {
+    text-decoration: none;
+    color: inherit;
+}
+.logo-nav{
+    width: 100%;
+    margin-bottom: 1rem;
+}
+nav{
+    width: 250px;
+    padding-left: 2rem;
+    height: 100vh;
+    border-right: 2px solid grey;
+    position: fixed;
+}
+.x-navigation-logo{
+    width: 10%;
+    height: 7%;
+}
+nav ul{
+    height: 100%;
+    padding-top: 2rem;
+    list-style-type: none;
+}
+nav ul button{
+    margin-bottom: 2rem;
+}
+nav ul li{
+    margin-bottom: 2rem;
+}
+main{
+    display: grid;
+    grid-template-columns: 284px 2fr 1fr;
+}
+.cursor-default{
+    cursor: default;
+}
+.p-1{
+    padding: 1rem;
+}
+.flex{
+    display: flex;
+}
+
+.flex-wrap{
+    flex-wrap: wrap;
+}
 .spinner-svg{
     animation: spin 1s linear infinite;
 }

@@ -6,7 +6,6 @@ interface initialState{
     user: User;
     isLoading: boolean;
 }
-
 const initialState: initialState = {
     user: {
         username: "",
@@ -33,7 +32,12 @@ export const getUser = createAsyncThunk(
 const UserSlice = createSlice({
     name: "users",
     initialState,
-    reducers: {},
+    reducers: {
+        logout: (state) => {
+            state.user = initialState.user
+            localStorage.removeItem("id")
+        }
+    },
     extraReducers: (builder)=>{
         builder.addCase(getUser.fulfilled, (state, action)=>{
             const user:User = action.payload.user
@@ -57,5 +61,5 @@ const UserSlice = createSlice({
     }
 })
 
-
+export const {logout} = UserSlice.actions;
 export default UserSlice.reducer;

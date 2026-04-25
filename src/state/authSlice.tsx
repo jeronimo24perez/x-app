@@ -124,6 +124,10 @@ const AuthSlice = createSlice({
         cacheReader: (state, action) => {
             state.auth = action.payload.auth;
             state.id = action.payload.id;
+        },
+        logoutChain: (state)=>{
+            state.auth = false;
+            state.id = ""
         }
     },
     extraReducers: (builder) => {
@@ -188,5 +192,5 @@ const AuthSlice = createSlice({
 
 });
 
-export const {cacheReader} = AuthSlice.actions;
+export const {cacheReader, logoutChain} = AuthSlice.actions;
 export default AuthSlice.reducer;

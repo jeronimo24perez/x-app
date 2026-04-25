@@ -1,0 +1,26 @@
+main{
+
+.feed-container{
+    border-right: 1px solid grey;
+}
+.main-post-page .post-container{
+    cursor: default ;
+}
+.main-post-page .post-container:hover{
+    background: black;
+}
+.go-back{
+    padding: 2%;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 1fr 11fr;
+    align-items: center;
+}
+.arrow-icon{
+    border-radius: 15px;
+    transition: background-color .2s, box-shadow .2s;
+}
+.arrow-icon:hover{
+    background: #333333;
+    box-shadow: 0 0 2px 7px #333333;
+}
