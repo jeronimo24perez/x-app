@@ -1,4 +1,4 @@
-main{
+
 
 .feed-container{
     border-right: 1px solid grey;
@@ -23,4 +23,23 @@ main{
 .arrow-icon:hover{
     background: #333333;
     box-shadow: 0 0 2px 7px #333333;
+}
+.write-reply-row{
+    display: grid;
+    grid-template-columns: 40px 11fr ;
+    padding: 2%;
+    min-height: 100px;
+    border-bottom: 1px solid grey;
+}
+.write-reply-row textarea{
+    min-height: 3rem;
+}
+.buttons-row{
+    display: grid;
+    place-items: center;
+    grid-template-columns: 1fr 1fr 1fr 8fr;
+}
+.button-reply{
+    place-self: end;
+    width: 30%;
 }
