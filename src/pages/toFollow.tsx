@@ -8,12 +8,16 @@ import HeaderMiddle from "../components/headerMiddle.tsx";
 import '../styles/toFollow.css'
 import UserListed from "../components/userListed.tsx";
 import {cacheReader} from "../state/authSlice.tsx";
+import Interesting from "../components/interesting.tsx";
+import {explore} from "../state/postSlice.tsx";
 
 const ToFollow = () => {
     const dispatch:AppDispatch = useDispatch();
     const navigate = useNavigate()
     const auth= useSelector((state:RootState)=> state.auth)
     const profile = useSelector((state: RootState)=> state.profile)
+    const postReader = useSelector((state: RootState) => state.posts);
+
     useEffect(() => {
         const localId: string | null = localStorage.getItem("id")
         dispatch(cacheReader({
@@ -31,7 +35,7 @@ const ToFollow = () => {
     }, []);
     useEffect(() => {
         dispatch(getAllUsers())
-
+        dispatch(explore())
     }, []);
     return (
         <>
@@ -48,6 +52,10 @@ const ToFollow = () => {
                         <h3>Sugeridos para ti</h3>
                         {profile.allUsers?.map(item => <UserListed key={item._id} item={item} />)}
                     </section>
+                </div>
+                <div className="third">
+                    <Interesting posts={postReader.feed} />
+
                 </div>
             </main>
         </>

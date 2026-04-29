@@ -272,7 +272,7 @@ main{
     position: fixed;
     right: 10px;
     width: 280px;
-    padding: 2%;
+    padding: 1.2%;
 }
 .ml-1{
     margin-left: 1rem;
@@ -283,7 +283,7 @@ main{
 .search{
     border: 1px solid white;
     border-radius: 30px;
-    padding: 10px;
+    padding: 5px;
     color: grey;
     display: flex;
     align-items: center;
@@ -314,7 +314,7 @@ main{
 .happening p:hover{
     background: #181818;
 }
-@media (max-width: 1270px){
+@media (max-width: 1200px){
     .modal-compose{
         width: 80% !important;
     }
@@ -372,8 +372,11 @@ main{
     }
 }
 @media (max-width: 800px){
+    nav{
+        width: 40px
+    }
     main{
-        grid-template-columns: 152px 2fr;
+        grid-template-columns: 72px 2fr;
     }
     .feed-post{
         grid-template-columns: 1fr 1fr 1fr 1fr !important;
@@ -385,10 +388,10 @@ main{
 }
 @media (max-width: 500px) {
     nav{
-        width: 80px;
+        width: 40px;
     }
     main{
-        grid-template-columns: 112px 1fr;
+        grid-template-columns: 72pxpx 1fr;
     }
     .post-container{
         padding: 5% !important;

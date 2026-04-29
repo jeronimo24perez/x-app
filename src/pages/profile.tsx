@@ -13,7 +13,8 @@ import type Post from "../models/post.ts";
 import PostComponent from "../components/post.tsx";
 import Spinner from "../components/spinner.tsx";
 import {userLikes} from "../state/likesSlice.tsx";
-import {fetchLikesPosts, type likePetition} from "../state/postSlice.tsx";
+import {explore, fetchLikesPosts, type likePetition} from "../state/postSlice.tsx";
+import Interesting from "../components/interesting.tsx";
 const Profile = ()=>{
     const dispatch:AppDispatch = useDispatch();
     const navigate = useNavigate()
@@ -23,6 +24,9 @@ const Profile = ()=>{
     //const likes = useSelector((state: RootState)=> state.likes)
     const [tab, setTab] = useState<number>(1)
     const {id} = useParams()
+    useEffect(() => {
+        dispatch(explore())
+    }, []);
     useEffect(()=>{
         const ide: string | null = localStorage.getItem("id");
         if(!auth.isLoading){
@@ -52,12 +56,14 @@ const Profile = ()=>{
 
     }, [auth.auth, auth.id, auth.isLoading, dispatch, navigate])
     return(
-        auth.isLoading || profile.isLoading?
-            <Spinner/> :
+
         <>
             <main>
                 <Nav />
                 <div className="feed-container">
+                    {auth.isLoading || profile.isLoading?
+                    <Spinner/> :
+                        <>
                     <HeaderMiddle headerText={profile.user?.username || " "} />
                     <section className="banner">
 
@@ -102,6 +108,11 @@ const Profile = ()=>{
                             </>
                         }
                     </section>
+                        </>}
+                </div>
+                <div className="third">
+                    <Interesting posts={post.feed} />
+
                 </div>
             </main>
         </>

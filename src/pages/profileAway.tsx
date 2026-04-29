@@ -13,15 +13,20 @@ import type Post from "../models/post.ts";
 import PostComponent from "../components/post.tsx";
 import {getMyFollows} from "../state/follows.tsx";
 import FollowButton from "../features/followButton.tsx";
+import {explore} from "../state/postSlice.tsx";
+import Interesting from "../components/interesting.tsx";
 
 const ProfileAway = ()=>{
     const {id} = useParams();
     const dispatch :AppDispatch= useDispatch();
     const auth = useSelector((state: RootState) => state.auth);
     const profile = useSelector((state: RootState) => state.profile);
-  
+    const post = useSelector((state:RootState)=> state.posts)
     const navigate = useNavigate();
     const [info, setInfo] = useState<User | null>(null);
+    useEffect(() => {
+        dispatch(explore())
+    }, [dispatch]);
     useEffect(() => {
         const localId: string | null = localStorage.getItem("id")
         if(!auth.isLoading){
@@ -80,6 +85,10 @@ const ProfileAway = ()=>{
                         {   profile.posts?.map((e:Post)=> <PostComponent text={e.text} date={e.date} _id={e._id} email={e.email} key={e._id} autor={e.autor} /> )}
                     </section>
                  </div>
+                </div>
+                <div className="third">
+                    <Interesting posts={post.feed} />
+
                 </div>
             </main>
         </>
