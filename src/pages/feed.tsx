@@ -7,15 +7,15 @@ import { MdEmojiEmotions } from "react-icons/md";
 import { FaImage} from "react-icons/fa";
 import { RxAvatar } from "react-icons/rx";
 import { ProgressCircle } from "../components/progressCircle.tsx";
-import {getUser} from "../state/userSlice.ts";
+import { getUser} from "../state/userSlice.ts";
 import { createPost, explore, getFeed } from "../state/postSlice.tsx";
 import Spinner from "../components/spinner.tsx";
 import PostComponent from "../components/post.tsx";
 
-// 1. Importar la librería y el tipo
 import EmojiPicker, {type EmojiClickData, Theme } from 'emoji-picker-react';
 import Nav from "../features/nav.tsx";
 import {userLikes} from "../state/likesSlice.tsx";
+import Interesting from "../components/interesting.tsx";
 
 const Feed = () => {
     const state = useSelector((state: RootState) => state.auth);
@@ -46,13 +46,14 @@ const Feed = () => {
 
     useEffect(() => {
         const userId = state.id;
-        if (!isMounted.current) {
+        if (userId) {
             dispatch(getUser({ id: userId }));
-            dispatch(getFeed(userId));
-            if (postReader.feed.length === 1) {
-                dispatch(explore());
-            }
-            isMounted.current = true;
+            dispatch(getFeed(userId)).unwrap().then((feedData) => {
+                if (feedData && feedData.length === 0) {
+                    dispatch(explore());
+                }
+                isMounted.current = true;
+            });
         }
     }, [dispatch, state.id]);
     useEffect(() => {
@@ -65,15 +66,18 @@ const Feed = () => {
             navigate('/');
         }
     }, [navigate, state.auth]); // Corregida dependencia: state.auth en lugar de state entero
+    useEffect(() => {
 
+    }, []);
     return (
         <>
-            {profile.isLoading || postReader.isLoading || state.isLoading ?
-                <Spinner />
-                :
+
                 <main className="main-feed">
                 <Nav />
                     <div className="feed-container">
+                        {profile.isLoading || postReader.isLoading || state.isLoading ?
+                            <Spinner />
+                            : <>
                         <div className="grid-container">
                             <div className="row write-post-row">
                                 <div className="avatar">
@@ -133,7 +137,9 @@ const Feed = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="separator-show-post text-blue cursor-pointer">
+                        <div className="separator-show-post text-blue cursor-pointer" onClick={()=>{
+                            dispatch(explore())
+                        }}>
                             Mostrar Posts
                         </div>
                         <section className="feed-grid">
@@ -149,10 +155,13 @@ const Feed = () => {
                                 />
                             ))}
                         </section>
+                            </>}
                     </div>
-                    <div className="third"></div>
+                    <div className="third">
+
+                        <Interesting posts={postReader.feed} />
+                    </div>
                 </main>
-            }
         </>
     );
 };

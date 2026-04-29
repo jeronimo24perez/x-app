@@ -8,22 +8,32 @@ import type {AppDispatch, RootState} from "../state/store.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {deleteLike,  makeLike} from "../state/postSlice.tsx";
 import {userLikes} from "../state/likesSlice.tsx";
-import {Link, useParams} from "react-router";
+import {Link, useNavigate, useParams} from "react-router";
 
 const PostComponent = (props: Post)=>{
     const {id} = useParams()
     const auth = useSelector((state: RootState) => state.auth);
     const likes = useSelector((state:RootState) => state.likes)
+    const post = useSelector((state:RootState)=> state.posts)
     const dispatch: AppDispatch = useDispatch();
+    const navigate = useNavigate()
     const isLiked:boolean = likes.likes.includes(props._id || "");
+
 
 
     return(
         <>
-            <div  className="post-container">
+            <div  className="post-container" id={props._id}>
                 {id? <>
                     <div className="post-user">
-                        <div className="post-avatar">
+                        <div className="post-avatar" onClick={()=>{
+                            const finder = post.feed.find(e => e.userId === auth.id)
+                            if(finder){
+                                navigate(`/profile/${props._id}`)
+                            }else{
+                                navigate(`/${props.userId}`)
+                            }
+                        }}>
                             <div className="avatar">
                                 <RxAvatar className="avatar-icon" />
                             </div>
@@ -83,9 +93,20 @@ const PostComponent = (props: Post)=>{
     <div></div>
     <FaRegBookmark className="post-button-icon" />
     <RiShare2Line className="post-button-icon " />
-</div></> :<Link to={`/post/${props._id}`}>
-                <div className="post-user">
-                    <div className="post-avatar">
+</div></> :<>
+                    <Link to={`/post/${props._id}`}>
+                    <div className="post-user">
+                    <div className="post-avatar" onClick={(e)=>{
+                        e.stopPropagation()
+                        e.preventDefault()
+                        const finder = post.feed.find(e => e._id === props._id)
+                        if(finder?.userId === auth.id){
+                                navigate(`/profile/${finder?.userId}`)
+                        }else {
+                            navigate(`/${finder?.userId}`)
+                        }
+
+                    }}>
                         <div className="avatar">
                             <RxAvatar className="avatar-icon" />
                         </div>
@@ -106,6 +127,7 @@ const PostComponent = (props: Post)=>{
                     <div></div>
                     <p>{props.text}</p>
                 </div>
+                    </Link>
 
                 <div className="post-buttons">
                     <div></div>
@@ -146,7 +168,7 @@ const PostComponent = (props: Post)=>{
                     <FaRegBookmark className="post-button-icon" />
                     <RiShare2Line className="post-button-icon " />
                 </div>
-                </Link>
+                    </>
                 }
             </div>
         </>)

@@ -1,0 +1,39 @@
+.following-header{
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+.following-list{
+    padding: 2%;
+
+}
+.following-header-list {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;  /* avatar | texto */
+    grid-template-rows: auto auto;
+}
+.following-header-list p{
+    align-self: end;
+}
+.following-header-list button{
+    height: 30px;
+    font-weight: bold;
+    padding: 4px;
+    width: 90px;
+    align-self: end;
+    margin-left: auto;
+}
+.avatar-list {
+    grid-row: span 2;  /* ✅ El avatar ocupa las 2 filas */
+    align-self: end;
+    margin-right: 10px;
+}
+.email-following{
+    align-self: start;
+}
+.following-list{
+    transition: background 0.3s ;
+}
+.following-list:hover{
+    background: #131313;
+}

@@ -1,0 +1,30 @@
+.modal-compose-background {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(194, 220, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    top: 0;
+}
+.modal-compose{
+    margin-top: 4rem;
+    width: 50%;
+    background: black;
+    border-radius: 8px;
+    padding: 2%;
+}
+.modal-compose .write-post{
+    padding: 2%;
+    min-height: 10rem;
+}
+.modal-compose-close{
+    padding: 2%;
+}
+.modal-compose-footer{
+    display: grid;
+    place-items: center;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 2%;
+}

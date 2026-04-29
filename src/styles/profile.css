@@ -1,0 +1,104 @@
+.banner{
+    min-height: 220px;
+    background: #2a2a2a;
+}
+.row-profile-1{
+    display: grid;
+    grid-template-columns:1fr 1fr 1fr;
+    padding: 2%;
+}
+.edit-profile{
+    grid-column-start: 3;
+    place-self: end;
+    border: white 1px solid;
+    background: none;
+    color: white;
+    font-weight: bold;
+    transition: background-color .3s;
+    width: 70%;
+}
+
+.follow-profile{
+    grid-column-start: 3;
+    place-self: end;
+    border: white 1px solid;
+    font-weight: bold;
+    transition: opacity .3s;
+    width: 70%;
+}
+.follow-profile:hover{
+    opacity: 0.8;
+}
+.edit-profile:hover{
+    background: #0c0c0c;
+}
+.avatar-profile{
+    width: 100px;
+    position: absolute;
+    left: 320px;
+    top: 250px;
+}
+.avatar-profile svg{
+    width: 100%;
+    height: 100%;
+}
+.info-container{
+    padding: 2%;
+}
+.info-container h4{
+    margin-top: 1rem;
+}
+.info-container p{
+    margin-bottom: .8rem;
+}
+.row-follows{
+    display: grid;
+    grid-template-columns:1fr 1fr 4fr;
+}
+.tab{
+    display: grid;
+    font-weight: bolder;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    border-bottom: 1px solid grey;
+}
+.tab-post{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.tab-away{
+    display: grid;
+    grid-template-columns:1fr ;
+}
+.tab-likes{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+
+}
+.tab-post:hover{
+    background: #0c0c0c;
+}
+.tab-likes:hover{
+    background: #0c0c0c;
+}
+.tab-active{
+    border-bottom: 3px solid #08a1f5;
+}
+.following{
+    background: none;
+    color: white;
+}
+.unfollow-button{
+    width: 100%;
+    transition: background-color .3s, color .3s, border .3s;
+}
+.unfollow-button:hover{
+    background: #1f0000;
+    color: red;
+    border: red 1px solid;
+}
+.link-follow:hover{
+    text-decoration: underline;
+}

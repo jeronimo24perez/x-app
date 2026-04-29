@@ -3,6 +3,7 @@ export default interface Post{
     autor?: string;
     email?: string;
     text: string;
+    userId?: string;
     img?: string;
     date?: string;
     likes?: number;

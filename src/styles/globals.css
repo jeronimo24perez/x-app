@@ -51,7 +51,15 @@ nav ul button{
     margin-bottom: 2rem;
 }
 nav ul li{
-    margin-bottom: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 30px;
+    padding-left: 2%;
+    cursor: pointer;
+    transition: background-color .2s;
+}
+nav ul li:hover{
+    background: #181818;
 }
 main{
     display: grid;
@@ -258,4 +266,156 @@ main{
 .bg-white{
     background-color: white !important;
     color: #363636 !important;
+}
+.third{
+    height: 100vh;
+    position: fixed;
+    right: 10px;
+    width: 280px;
+    padding: 2%;
+}
+.ml-1{
+    margin-left: 1rem;
+}
+.mt-5{
+    margin-top: 5rem;
+}
+.search{
+    border: 1px solid white;
+    border-radius: 30px;
+    padding: 10px;
+    color: grey;
+    display: flex;
+    align-items: center;
+}
+.search input{
+    color: grey;
+    background: none;
+    outline: none;
+    border: none;
+}
+.relevant-people{
+    margin-top: 2rem;
+    border: grey 1px solid;
+    border-radius: 8px;
+    padding: 2%;
+    display: grid;
+}
+.happening{
+    border: 1px solid grey;
+    margin-top: 5rem;
+    border-radius: 8px;
+}
+.happening p{
+    margin-top: 1rem;
+    padding: 5%;
+
+}
+.happening p:hover{
+    background: #181818;
+}
+@media (max-width: 1270px){
+    .modal-compose{
+        width: 80% !important;
+    }
+    main{
+        grid-template-columns: 112px 2fr 1fr;
+    }
+    .logo-nav{
+        text-align: center;
+    }
+    .x-navigation-logo{
+        width: 26%;
+        height: 7%;
+    }
+    nav ul li{
+        margin-top: 2rem;
+        text-align: center;
+    }
+    nav ul li span{
+        font-size: 0;
+        color: transparent;
+        display: none;
+    }
+    .nav-button{
+        width: 40px;
+        height: 40px;
+
+    }
+    .username-nav{
+        font-size: 0;
+        color: transparent;
+    }
+    .email-nav{
+        font-size: 0 !important;
+        color: transparent !important;
+    }
+    button span{
+        font-size: 0;
+        color: transparent;
+    }
+    nav{
+        position: fixed;
+        width: 80px;
+        place-items: end;
+    }
+}
+@media (max-width: 1070px){
+    .third{
+       display: none;
+    }
+    nav{
+        width: 120px;
+    }
+    main{
+        grid-template-columns: 152px 2fr 1fr;
+    }
+}
+@media (max-width: 800px){
+    main{
+        grid-template-columns: 152px 2fr;
+    }
+    .feed-post{
+        grid-template-columns: 1fr 1fr 1fr 1fr !important;
+    }
+    .feed-post button{
+        width: 60%;
+        place-self: center;
+    }
+}
+@media (max-width: 500px) {
+    nav{
+        width: 80px;
+    }
+    main{
+        grid-template-columns: 112px 1fr;
+    }
+    .post-container{
+        padding: 5% !important;
+    }
+    .feed-post button{
+        width: 80%;
+        place-self: start;
+    }
+}
+@media (max-width: 400px) {
+    .post-user{
+        grid-template-columns: 1fr 11fr !important;
+
+    }
+    .post-email{
+     color: transparent;
+    }
+    .post-username{
+        font-size: 12px;
+    }
+    .feed-post{
+        grid-template-columns: 1fr 1fr 1fr !important;
+    }
+    .feed-post button{
+        grid-column-start: 2;
+        grid-column-end: 3;
+        place-self: center;
+        width: 100%;
+    }
 }

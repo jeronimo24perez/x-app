@@ -53,7 +53,7 @@ const initialState: InitialState = {
     step: 0,
     user: null, // ✅ ya no rompe
     detail: null,
-    isLoading: false
+    isLoading: true
 };
 
 // ================== THUNKS ==================
@@ -124,10 +124,12 @@ const AuthSlice = createSlice({
         cacheReader: (state, action) => {
             state.auth = action.payload.auth;
             state.id = action.payload.id;
+            state.isLoading = false;
         },
         logoutChain: (state)=>{
             state.auth = false;
             state.id = ""
+            state.isLoading = false;
         }
     },
     extraReducers: (builder) => {

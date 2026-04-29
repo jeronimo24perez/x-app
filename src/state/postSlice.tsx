@@ -1,30 +1,42 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import type Post from '../models/post.ts'
+
 interface initialState {
     feed: Post[]
+    liked?: Post[]
     isLoading: boolean
 }
-interface likePetition{
+export interface likePetition{
     userId: string
     postId: string
 }
 const initialState: initialState = {
-    feed: [{
-        _id: "",
-        autor: "",
-        email: "",
-        likes: 0,
-        text: "",
-        img: "",
-        date: ""
-    }],
+    feed: [],
     isLoading: false,
+    liked: []
 }
 export const getFeed = createAsyncThunk(
     "posts/getFeed",
     async (arg: string | undefined)=>{
         const feed = await fetch(`https://x-backend-ruddy.vercel.app/feed/${arg}`)
         return await feed.json()
+    }
+)
+export const getPost = createAsyncThunk(
+    "posts/getPost",
+    async (arg:string)=>{
+    const post = await fetch(`https://x-backend-ruddy.vercel.app/post/${arg}`)
+    return await post.json()
+}
+)
+export const fetchLikesPosts = createAsyncThunk(
+    "posts/fetchLikesPosts",
+    async (arg: string[]) => {
+        const promises = arg.map(async (id) => {
+            const res = await fetch(`https://x-backend-ruddy.vercel.app/post/${id}`)
+            return await res.json()
+        })
+        return await Promise.all(promises);
     }
 )
 export const explore = createAsyncThunk(
@@ -99,7 +111,8 @@ const PostSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(getFeed.fulfilled, (state)=>{
+        builder.addCase(getFeed.fulfilled, (state, action)=>{
+                 state.feed = action.payload
                  state.isLoading = false
         })
             .addCase(getFeed.pending, (state)=>{
@@ -135,6 +148,20 @@ const PostSlice = createSlice({
                         finder.likes -= 1;
                     }
                 }
+            })
+            .addCase(getPost.pending, (state)=>{
+                state.isLoading = true
+            })
+            .addCase(getPost.fulfilled, (state, action)=>{
+                state.isLoading = false
+                state.liked?.push( action.payload)
+            })
+            .addCase(fetchLikesPosts.fulfilled, (state,action)=>{
+                if(!action.payload[0].detail){
+                    state.liked = action.payload
+                    state.isLoading = false
+                }
+
             })
     }
 

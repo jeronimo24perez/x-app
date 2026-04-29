@@ -1,0 +1,16 @@
+.follow-header {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    border-bottom: 1px solid grey;
+}
+.follow-header-text{
+    border-bottom: 2px solid #08a1f5;
+    width: 40%;
+    padding: 1%;
+    text-align: center;
+    transition: background-color 0.2s;
+}
+.follow-header-text:hover{
+    background: #0c0c0c;
+}

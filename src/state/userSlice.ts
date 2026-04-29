@@ -1,9 +1,12 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+    import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import type User from '../models/user.ts'
+import type Post from "../models/post.ts";
 
 
 interface initialState{
     user: User;
+    posts?: Post[]
+    allUsers?: User[]
     isLoading: boolean;
 }
 const initialState: initialState = {
@@ -17,6 +20,7 @@ const initialState: initialState = {
         website:"",
         location:""
     },
+    posts: [],
     isLoading: false,
 }
 interface getUser{
@@ -29,6 +33,22 @@ export const getUser = createAsyncThunk(
         return await user.json()
     }
 )
+export const userPosts = createAsyncThunk(
+    "users/userPosts",
+    async (arg: string)=>{
+        const posts = await fetch(`https://x-backend-ruddy.vercel.app/user/posts/${arg}`)
+        return await posts.json()
+    }
+)
+
+export const getAllUsers = createAsyncThunk(
+    "users/getAllUsers",
+    async ()=>{
+        const users = await fetch(`https://x-backend-ruddy.vercel.app/users`)
+        return await users.json()
+    }
+)
+
 const UserSlice = createSlice({
     name: "users",
     initialState,
@@ -57,6 +77,20 @@ const UserSlice = createSlice({
         })
             .addCase(getUser.pending,(state)=>{
                 state.isLoading = true
+            })
+            .addCase(userPosts.fulfilled, (state, action)=>{
+                state.posts = action.payload
+                state.isLoading = false
+            })
+            .addCase(userPosts.pending, (state)=>{
+                state.isLoading = true
+            })
+            .addCase(getAllUsers.pending, (state)=>{
+                state.isLoading = true
+            })
+            .addCase(getAllUsers.fulfilled, (state, action)=>{
+                state.allUsers = action.payload
+                state.isLoading = false;
             })
     }
 })

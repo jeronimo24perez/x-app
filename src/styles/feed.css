@@ -180,6 +180,7 @@
     box-shadow: 0 0 2px 7px #001f00;
     border-radius: 12px ;
 }
+
 .logout-submenu{
     display: grid;
     grid-template-columns: 11fr 1fr ;

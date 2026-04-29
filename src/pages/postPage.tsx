@@ -1,18 +1,23 @@
 import {type ChangeEvent, useEffect, useState} from "react";
-import {Link, useNavigate, useParams} from "react-router";
+import { useNavigate, useParams} from "react-router";
 import type Post from "../models/post.ts";
 import Spinner from "../components/spinner.tsx";
 import Nav from "../features/nav.tsx";
 import '../styles/postPage.css'
 import PostComponent from "../components/post.tsx";
-import {IoArrowBackOutline} from "react-icons/io5";
 import {RxAvatar} from "react-icons/rx";
 import {ProgressCircle} from "../components/progressCircle.tsx";
 import {FaImage} from "react-icons/fa";
 import {MdEmojiEmotions} from "react-icons/md";
 import EmojiPicker, {type EmojiClickData, Theme} from "emoji-picker-react";
-import {useSelector} from "react-redux";
-import type {RootState} from "../state/store.tsx";
+import {useDispatch, useSelector} from "react-redux";
+import type {AppDispatch, RootState} from "../state/store.tsx";
+import {getUser} from "../state/userSlice.ts";
+import {cacheReader} from "../state/authSlice.tsx";
+import {getPostComment, PostComment} from '../state/commentSlice.tsx'
+import Interesting from "../components/interesting.tsx";
+import HeaderMiddle from "../components/headerMiddle.tsx";
+
 const PostPage = ()=>{
     const {id} = useParams()
     interface postSaver extends Post {
@@ -30,9 +35,13 @@ const PostPage = ()=>{
         userId :"",
         _id:"",
     });
+    const dispatch:AppDispatch = useDispatch();
     const navigate = useNavigate()
     const [text, setText] = useState("");
     const [loading, setLoading] = useState<boolean>(true);
+    const comments= useSelector((state:RootState)=> state.comments)
+    const profile= useSelector((state:RootState)=> state.profile)
+
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
     const onEmojiClick = (emojiData: EmojiClickData) => {
         setText((prev) => prev + emojiData.emoji);
@@ -48,11 +57,26 @@ const PostPage = ()=>{
             setLoading(false);
             return result
         }
-        if(!auth.auth){
-            navigate('/')
+        if(!auth.isLoading){
+            if(!auth.auth){
+                navigate('/')
+            }
         }
+
         post()
     }, [id]);
+    useEffect(() => {
+        const ide: string | null = localStorage.getItem("id");
+        dispatch(cacheReader({
+            id: ide,
+            auth: true
+        }))
+        if(ide){
+            dispatch(getUser({id: ide}))
+        }
+
+        dispatch(getPostComment(id || ""))
+    }, [dispatch]);
     function handleChange(e: ChangeEvent<HTMLTextAreaElement>) {
         const formattedText = e.target.value.replace(/\n/g, "");
         if (e.target.value.length <= MAX_CHARS) {
@@ -70,14 +94,10 @@ const PostPage = ()=>{
                 <Nav />
 
                 <div className="feed-container">
-                    <div className="header go-back ">
-                        <Link className="p-1 " to='/feed'>
-                            <IoArrowBackOutline className="arrow-icon" />
-                        </Link>
-                        <h3>Post</h3>
-                    </div>
-
-                <PostComponent text={post.text} date={post.date} _id={id} likes={post.likes} key={id} email={post.email} autor={post.autor} />
+                  <HeaderMiddle headerText="Post"  />
+                    {/*POST*/}
+                <PostComponent text={post.text} date={post.date} _id={id} likes={post.likes} key={id} userId={post.userId} email={post.email} autor={post.autor} />
+                    {/*Comment reply*/}
                     <div className="row write-reply-row">
                         <div className="avatar">
                             <RxAvatar className="avatar-icon" />
@@ -104,7 +124,7 @@ const PostPage = ()=>{
                                 <div style={{ position: 'absolute', zIndex: 10, top: '40px', left: '0' }}>
                                     <EmojiPicker
                                         onEmojiClick={onEmojiClick}
-                                        theme={Theme.DARK} // O Theme.DARK según tu app
+                                        theme={Theme.DARK}
                                         searchPlaceholder="Buscar emoji..."
                                         width={300}
                                         height={400}
@@ -113,12 +133,26 @@ const PostPage = ()=>{
                             )}
 
                             <ProgressCircle key={2} currentLength={text.length} maxLength={MAX_CHARS} />
-                            <button className="button-rounded fw-bold button-reply button-disabled cursor-default">responder</button>
+                            <button className={text.length>0? "button-rounded fw-bold button-reply cursor-pointer":"button-rounded fw-bold button-reply button-disabled cursor-default"}
+                            onClick={()=>{
+                                if(text.length > 0){
+                                    dispatch(PostComment({
+                                        id: id || "",
+                                        userId: auth.id || "",
+                                        text: text,
+                                        autor: profile.user.username,
+                                        email: profile.user.email
+                                    }))
+                                    setText("")
+                            }}
+                            }>responder</button>
                         </div>
                     </div>
+                    {/*comments*/}
+                    {comments.comment.map(e => <PostComponent text={e.text} date={e.date} _id={e._id} email={e.email} key={e._id} autor={e.autor} /> ) }
                 </div>
                 <div className="third">
-
+                <Interesting />
                 </div>
             </main>
         </>
