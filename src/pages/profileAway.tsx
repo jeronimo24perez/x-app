@@ -15,6 +15,8 @@ import {getMyFollows} from "../state/follows.tsx";
 import FollowButton from "../features/followButton.tsx";
 import {explore} from "../state/postSlice.tsx";
 import Interesting from "../components/interesting.tsx";
+import {IoLocationSharp} from "react-icons/io5";
+import {CgWebsite} from "react-icons/cg";
 
 const ProfileAway = ()=>{
     const {id} = useParams();
@@ -67,7 +69,13 @@ const ProfileAway = ()=>{
                         <div className="info-container">
                             <h4>{info?.username}</h4>
                             <p className={"fw-small text-grey"}>@{info?.email?.split('@')[0]}</p>
-                            <p className={"fw-small text-grey"}><AiFillCalendar /> {info?.date}</p>
+                            <div className="row row-icons">
+                                <p className={"fw-small text-grey"}><AiFillCalendar /> {info?.date}</p>
+
+                                <p className={"fw-small text-grey"}>  {info?.location? <> <IoLocationSharp /> {info.website}</>:<></> }</p>
+                                <a className={"fw-small text-grey link-follow cursor-pointer"} href={info?.website}> {info?.website? <><CgWebsite /> {info.website}</>:<></> } </a>
+                            </div>
+
                             <div className="row row-follows">
                                 <Link to={`/following/${id}`} className={"fw-small link-follow"}> {info?.follows} <span className="text-grey">Siguiendo</span> </Link>
                                 <Link to={`/followers/${id}`} className={"fw-small link-follow"}>{info?.followers } <span className="text-grey">Seguidores</span>  </Link>

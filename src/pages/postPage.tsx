@@ -15,9 +15,7 @@ import type {AppDispatch, RootState} from "../state/store.tsx";
 import {getUser} from "../state/userSlice.ts";
 import {cacheReader} from "../state/authSlice.tsx";
 import {getPostComment, PostComment} from '../state/commentSlice.tsx'
-import Interesting from "../components/interesting.tsx";
 import HeaderMiddle from "../components/headerMiddle.tsx";
-
 const PostPage = ()=>{
     const {id} = useParams()
     interface postSaver extends Post {
@@ -152,7 +150,6 @@ const PostPage = ()=>{
                     {comments.comment.map(e => <PostComponent text={e.text} date={e.date} _id={e._id} email={e.email} key={e._id} autor={e.autor} /> ) }
                 </div>
                 <div className="third">
-                <Interesting />
                 </div>
             </main>
         </>

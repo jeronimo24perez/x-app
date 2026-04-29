@@ -48,6 +48,25 @@ export const getAllUsers = createAsyncThunk(
         return await users.json()
     }
 )
+export const editUser = createAsyncThunk(
+    "user/editUser",
+    async (arg:User)=>{
+        const user = await fetch(`https://x-backend-ruddy.vercel.app/user/${arg._id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: arg.username,
+                bio: arg.bio,
+                website: arg.website,
+                location: arg.location
+
+            })    }
+            )
+    return user.json()
+    })
+
 
 const UserSlice = createSlice({
     name: "users",
@@ -91,6 +110,13 @@ const UserSlice = createSlice({
             .addCase(getAllUsers.fulfilled, (state, action)=>{
                 state.allUsers = action.payload
                 state.isLoading = false;
+            })
+            .addCase(editUser.pending, (state)=>{
+                state.isLoading = true
+            })
+            .addCase(editUser.fulfilled, (state, action)=>{
+                state.user = { ...state.user, ...action.payload.user }
+                state.isLoading = false
             })
     }
 })

@@ -277,6 +277,9 @@ main{
 .ml-1{
     margin-left: 1rem;
 }
+.mb-1{
+    margin-bottom: 1rem;
+}
 .mt-5{
     margin-top: 5rem;
 }
@@ -391,7 +394,7 @@ main{
         width: 40px;
     }
     main{
-        grid-template-columns: 72pxpx 1fr;
+        grid-template-columns: 72px 1fr;
     }
     .post-container{
         padding: 5% !important;

@@ -4,7 +4,7 @@ import {cacheReader} from "../state/authSlice.tsx";
 import type {AppDispatch, RootState} from "../state/store.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {getUser, userPosts} from "../state/userSlice.ts";
-import {Link, useNavigate, useParams} from "react-router";
+import {Link, useLocation, useNavigate, useParams} from "react-router";
 import HeaderMiddle from "../components/headerMiddle.tsx";
 import '../styles/profile.css'
 import {RxAvatar} from "react-icons/rx";
@@ -15,6 +15,8 @@ import Spinner from "../components/spinner.tsx";
 import {userLikes} from "../state/likesSlice.tsx";
 import {explore, fetchLikesPosts, type likePetition} from "../state/postSlice.tsx";
 import Interesting from "../components/interesting.tsx";
+import {IoLocationSharp} from "react-icons/io5";
+import {CgWebsite} from "react-icons/cg";
 const Profile = ()=>{
     const dispatch:AppDispatch = useDispatch();
     const navigate = useNavigate()
@@ -24,6 +26,7 @@ const Profile = ()=>{
     //const likes = useSelector((state: RootState)=> state.likes)
     const [tab, setTab] = useState<number>(1)
     const {id} = useParams()
+    const location = useLocation()
     useEffect(() => {
         dispatch(explore())
     }, []);
@@ -74,19 +77,28 @@ const Profile = ()=>{
                                 <RxAvatar className="avatar-icon" />
                             </div>
                             <div></div>
-                            <button className="button-rounded edit-profile">Editar perfil</button>
+                            <Link to={'/settings/profile'} state={{ backgroundLocation: location }} className="button-rounded edit-profile text-decoration-none d-flex align-items-center justify-content-center">Editar perfil</Link>
                         </div>
                         <div className="info-container">
                             <h4>{profile.user.username}</h4>
                             <p className={"fw-small text-grey"}>@{profile.user.email?.split('@')[0]}</p>
-                            <p className={"fw-small text-grey"}><AiFillCalendar /> {profile.user.date}</p>
+
+                            <div className="row row-icons">
+                                <p className={"fw-small text-grey"}><AiFillCalendar /> {profile.user.date}</p>
+
+                                <p className={"fw-small text-grey"}> {profile.user.location? <><IoLocationSharp /> { profile.user.location}</>:<></> }</p>
+                                <a className={"fw-small text-grey link-follow cursor-pointer"} href={profile.user.website}>  {profile.user.website? <><CgWebsite /> { profile.user.website}</>:<></> }</a>
+                            </div>
+
+
+                            <div className="bio mb-1">
+                                {profile.user.bio}
+                            </div>
                             <div className="row row-follows">
                                 <Link to={`/following/${id}`} className={"fw-small link-follow "}> {profile.user.follows} <span className="text-grey">Siguiendo</span> </Link>
                                 <Link to={`/followers/${id}`}className={"fw-small link-follow"}>{profile.user.followers } <span className="text-grey">Seguidores</span> </Link>
                             </div>
-                            <div className="bio">
-                                {profile.user.bio}
-                            </div>
+
                         </div>
 
 

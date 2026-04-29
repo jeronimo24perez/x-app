@@ -11,6 +11,7 @@ import Followers from './pages/followers.tsx';
 import ToFollow from "./pages/toFollow.tsx";
 import ModalCompose from "./features/modalCompose.tsx";
 import Explore from "./pages/explore.tsx";
+import EditProfileModal from "./features/editProfileModal.tsx";
 function App() {
     const location = useLocation();
     const backgroundLocation = location.state?.backgroundLocation;
@@ -32,6 +33,7 @@ function App() {
             {backgroundLocation && (
                 <Routes>
                     <Route path='/compose/post' element={<ModalCompose />} />
+                    <Route path='/settings/profile' element={<EditProfileModal />} />
                 </Routes>
             )}
     </>
